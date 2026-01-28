@@ -45,6 +45,8 @@ import TextDisplay from '@/components/TextDisplay.vue'
 // 面板通用样式
 .panel {
     height: 100%;
+    min-width: 0; // 允许 flex 子元素收缩
+    overflow: hidden; // 防止内容撑开容器
 }
 
 // 左侧面板 - 文件处理（宽度比例 478）
