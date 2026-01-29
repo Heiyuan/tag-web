@@ -125,6 +125,9 @@ const loadMore = () => {
     gap: 8px;
     flex: 1;
     overflow-y: auto;
+    // 将滚动条位置移到页面边缘-5px
+    margin-right: -19px;
+    padding-right: 19px;
 
     // 自定义滚动条
     &::-webkit-scrollbar {

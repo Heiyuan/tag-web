@@ -132,10 +132,7 @@ const nodes = ref([
 const edges = ref([
     { id: 'e1-2', source: '1', target: '2' },
     { id: 'e1-4', source: '1', target: '4' },
-    { id: 'e1-4b', source: '1', target: '4b' },
-    // { id: 'e4a-4b1', source: '4a', target: '4b1' },
-    // { id: 'e4a-4b2', source: '4a', target: '4b2' },
-    // { id: 'e4b1-4b2', source: '4b1', target: '4b2' },
+    { id: 'e1-4b', source: '1', target: '4b' }
 ])
 
 
