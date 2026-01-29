@@ -19,7 +19,7 @@ const handleSelect = (key: string) => {
         <div class="header-content">
             <!-- 左侧 Logo 区域 -->
             <div class="logo-container">
-                <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
+                <img alt="Vue logo" class="logo" src="@/assets/TAGSVG.svg" width="48.1" height="29.2" />
 
             </div>
 
@@ -63,7 +63,7 @@ const handleSelect = (key: string) => {
 .logo-container {
     display: flex;
     align-items: center;
-    margin-right: 32px; // 与导航菜单的间距
+    margin-right: 26px; // 与导航菜单的间距
 }
 
 // Logo SVG 尺寸
