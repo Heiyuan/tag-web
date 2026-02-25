@@ -19,7 +19,7 @@ const actionCards = ref([
     { id: 2, icon: 'star', label: '结合二年级一班的学情', color: '#9CA3AF' },
     { id: 3, icon: 'video', label: '生成《寻找轴对称》PPT', color: '#F97316' },
     { id: 4, icon: 'star', label: '公开课风格', color: '#9CA3AF' },
-    { id: 5, icon: 'diagram', label: '生成《寻找轴对称》教学动画', color: '#10B981' },
+    { id: 5, icon: 'diagram', label: '生成《寻找轴对称》动画', color: '#10B981' },
     { id: 6, icon: 'star', label: '跨学科结合', color: '#9CA3AF' },
 ])
 
@@ -27,10 +27,10 @@ const actionCards = ref([
 const handleCardClick = (cardId: number) => {
     const cardIndex = actionCards.value.findIndex(c => c.id === cardId)
     if (cardIndex === -1) return
-    
+
     const card = actionCards.value[cardIndex]
     if (!card) return
-    
+
     // 拼接到输入框（如果已有内容则加空格分隔）
     if (inputText.value) {
         inputText.value += ',' + card.label
@@ -49,7 +49,6 @@ const handleSend = () => {
 const nodes = ref([
     {
         id: '1',
-        type: 'input',
         data: { label: '根据上传的教案、教参，生成《寻找轴对称》教案、PPT、教学动画。根据二年级一班的学情生成，像公开课的风格，需要跨学科结合。' },
         position: { x: 250, y: 0 },
         style: { width: '300px' },
@@ -66,16 +65,15 @@ const nodes = ref([
         id: '2a',
         data: { label: '深读教材:确定重点段落和句段清单' },
         position: { x: 25, y: 50 },
-        style: {  width: '150px'},
+        style: { width: '150px' },
         extent: 'parent' as const,
         parentNode: '2',
     },
     {
         id: '2b',
-        type: 'input',
         data: { label: '锁定课标:提炼能力与评价证据' },
         position: { x: 25, y: 130 },
-        style: {  width: '150px'},
+        style: { width: '150px' },
         extent: 'parent' as const,
         parentNode: '2',
     },
@@ -98,7 +96,7 @@ const nodes = ref([
         id: '4b1',
         data: { label: '整理学情信息' },
         position: { x: 15, y: 40 },
-        style: {  width: '150px'},
+        style: { width: '150px' },
         extent: 'parent' as const,
         parentNode: '4b',
     },
@@ -106,7 +104,7 @@ const nodes = ref([
         id: '4b2',
         data: { label: '生成分层任务与支架' },
         position: { x: 185, y: 40 },
-        style: {  width: '150px'},
+        style: { width: '150px' },
         extent: 'parent' as const,
         parentNode: '4b',
     },
@@ -114,7 +112,7 @@ const nodes = ref([
         id: '4a',
         data: { label: '搭建流程:生成40分钟节点流' },
         position: { x: 15, y: 180 },
-        style: {  width: '159px'},
+        style: { width: '159px' },
         extent: 'parent' as const,
         parentNode: '4',
     },
@@ -122,17 +120,20 @@ const nodes = ref([
         id: '4c',
         data: { label: '借鉴名师:生成可迁移脚手架' },
         position: { x: 200, y: 180 },
-        style: {  width: '165px'},
+        style: { width: '165px' },
         extent: 'parent' as const,
         parentNode: '4',
     },
-  
+
 ])
 
 const edges = ref([
     { id: 'e1-2', source: '1', target: '2' },
     { id: 'e1-4', source: '1', target: '4' },
-    { id: 'e1-4b', source: '1', target: '4b' }
+    { id: 'e1-4b', source: '1', target: '4b' },
+    { id: '4b-4a', source: '4b', target: '4a' },
+    { id: '4b-4c', source: '4b', target: '4c' }
+
 ])
 
 
@@ -152,42 +153,36 @@ const edges = ref([
         <div class="bottom-section">
             <!-- 卡片区域 -->
             <div class="action-cards">
-                <div
-                    v-for="card in actionCards"
-                    :key="card.id"
-                    class="action-card"
-                    @click="handleCardClick(card.id)"
-                >
+                <div v-for="card in actionCards" :key="card.id" class="action-card" @click="handleCardClick(card.id)">
                     <div class="card-icon" :style="{ backgroundColor: card.color + '20' }">
                         <!-- 文档图标 -->
                         <svg v-if="card.icon === 'document'" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="2" width="16" height="20" rx="2" :stroke="card.color" stroke-width="2"/>
-                            <path d="M8 7h8M8 11h8M8 15h5" :stroke="card.color" stroke-width="2" stroke-linecap="round"/>
-                            <circle cx="17" cy="17" r="5" :fill="card.color"/>
-                            <text x="17" y="20" text-anchor="middle" fill="white" font-size="8" font-weight="bold">?</text>
+                            <rect x="4" y="2" width="16" height="20" rx="2" :stroke="card.color" stroke-width="2" />
+                            <path d="M8 7h8M8 11h8M8 15h5" :stroke="card.color" stroke-width="2"
+                                stroke-linecap="round" />
+                            <circle cx="17" cy="17" r="5" :fill="card.color" />
+                            <text x="17" y="20" text-anchor="middle" fill="white" font-size="8"
+                                font-weight="bold">?</text>
                         </svg>
                         <!-- 视频图标 -->
                         <svg v-else-if="card.icon === 'video'" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect x="2" y="4" width="20" height="16" rx="3" :fill="card.color"/>
-                            <path d="M10 8.5v7l5.5-3.5L10 8.5z" fill="white"/>
+                            <rect x="2" y="4" width="20" height="16" rx="3" :fill="card.color" />
+                            <path d="M10 8.5v7l5.5-3.5L10 8.5z" fill="white" />
                         </svg>
                         <!-- 图表图标 -->
                         <svg v-else-if="card.icon === 'diagram'" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <circle cx="6" cy="6" r="3" :stroke="card.color" stroke-width="2"/>
-                            <circle cx="18" cy="6" r="3" :stroke="card.color" stroke-width="2"/>
-                            <circle cx="6" cy="18" r="3" :stroke="card.color" stroke-width="2"/>
-                            <circle cx="18" cy="18" r="3" :stroke="card.color" stroke-width="2"/>
-                            <path d="M9 6h6M6 9v6M18 9v6M9 18h6" :stroke="card.color" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="6" cy="6" r="3" :stroke="card.color" stroke-width="2" />
+                            <circle cx="18" cy="6" r="3" :stroke="card.color" stroke-width="2" />
+                            <circle cx="6" cy="18" r="3" :stroke="card.color" stroke-width="2" />
+                            <circle cx="18" cy="18" r="3" :stroke="card.color" stroke-width="2" />
+                            <path d="M9 6h6M6 9v6M18 9v6M9 18h6" :stroke="card.color" stroke-width="2"
+                                stroke-linecap="round" />
                         </svg>
                         <!-- 星星图标 -->
                         <svg v-else-if="card.icon === 'star'" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path
                                 d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                                fill="none"
-                                :stroke="card.color"
-                                stroke-width="2"
-                                stroke-linejoin="round"
-                            />
+                                fill="none" :stroke="card.color" stroke-width="2" stroke-linejoin="round" />
                         </svg>
                     </div>
                     <span class="card-label">{{ card.label }}</span>
@@ -196,13 +191,8 @@ const edges = ref([
 
             <!-- 输入区域 -->
             <div class="input-area">
-                <input
-                    v-model="inputText"
-                    type="text"
-                    class="text-input"
-                    placeholder="输入生成需求..."
-                    @keyup.enter="handleSend"
-                />
+                <input v-model="inputText" type="text" class="text-input" placeholder="输入生成需求..."
+                    @keyup.enter="handleSend" />
                 <button class="send-btn" @click="handleSend">发送</button>
             </div>
         </div>
@@ -218,15 +208,16 @@ const edges = ref([
     flex-direction: column;
     gap: 20px;
     box-sizing: border-box;
+    overflow: hidden; // 防止内容溢出
 }
 
 // 上部区域 - 占比 632/(632+261) ≈ 70.77%
 .top-section {
-    flex: 632;
+    flex: 1 1 auto; // 允许收缩和增长
     border-radius: 12px;
     box-sizing: border-box;
     width: 100%;
-    min-height: 0; // 允许 flex 子元素收缩
+    min-height: 200px; // 设置最小高度，确保流程图可见
     min-width: 0; // 允许横向收缩
     overflow: hidden; // 防止内容撑开容器
     position: relative; // 为 VueFlow 提供定位上下文
@@ -244,39 +235,68 @@ const edges = ref([
     }
 }
 
-// 下部区域 - 占比 261/(632+261) ≈ 29.23%
+// 下部区域 - 固定最小高度，确保输入框始终可见
 .bottom-section {
-    flex: 261;
+    flex: 0 0 auto; // 不收缩不增长，按内容自适应
     background-color: #fff;
     border-radius: 12px;
     padding: 24px 32px;
     box-sizing: border-box;
-    min-height: 0;
+    min-height: 100px; // 最小高度确保输入框可见
+    max-height: 40%; // 最大不超过40%，给流程图留空间
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow: hidden;
 }
 
-// 操作卡片区域 - 2列网格
+// 操作卡片区域 - 自适应网格，可垂直滚动
 .action-cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    // 自适应列数：最小280px，最大1fr，自动填充
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-auto-rows: min-content;
     gap: 12px;
-    flex: 1;
+    flex: 1 1 auto; // 可收缩
+    min-height: 0; // 允许收缩到0
     align-content: start;
+    overflow-x: hidden; // 禁止横向滚动
+    overflow-y: auto; // 空间不足时垂直滚动
+    padding-right: 8px; // 滚动条右侧间距
+    margin-right: -8px; // 抵消padding让滚动条更靠右
+
+    // 自定义滚动条样式
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #F3F4F6;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #D1D5DB;
+        border-radius: 3px;
+
+        &:hover {
+            background: #9CA3AF;
+        }
+    }
 }
 
 .action-card {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
+    gap: 12px;
+    padding: 12px 16px;
     border: 1px solid #E5E7EB;
     border-radius: 12px;
     background: #fff;
     cursor: pointer;
     transition: all 0.2s ease;
+    min-width: 180px; // 卡片最小宽度
+    max-width: 100%; // 卡片最大宽度
 
     &:hover {
         border-color: #D1D5DB;
@@ -295,16 +315,18 @@ const edges = ref([
 }
 
 .card-label {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     color: #1F2937;
+    white-space: nowrap; // 防止文字换行
 }
 
-// 输入区域
+// 输入区域 - 始终保持可见
 .input-area {
     display: flex;
     gap: 16px;
     align-items: center;
+    flex-shrink: 0; // 禁止收缩，确保始终可见
 }
 
 .text-input {

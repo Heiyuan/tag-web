@@ -19,7 +19,7 @@ const handleSelect = (key: string) => {
         <div class="header-content">
             <!-- 左侧 Logo 区域 -->
             <div class="logo-container">
-                <img alt="Vue logo" class="logo" src="@/assets/TAGSVG.svg" width="48.1" height="29.2" />
+                <img alt="Vue logo" class="logo" src="@/assets/TAGSVG.svg" width="60" height="36" />
 
             </div>
 
